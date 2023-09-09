@@ -1,0 +1,2 @@
+rootProject.name = 'enjoy-rbac'
+include 'enjoy-rbac'

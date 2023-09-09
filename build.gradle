@@ -1,0 +1,34 @@
+
+subprojects {
+    group 'vip.sujianfeng.enjoyrbac'
+
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
+    project.ext.setProperty("publishUrl_snapshots", "https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    project.ext.setProperty("publishUrl_release", "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+
+    //避免编译出的jar存在中文乱码问题
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    tasks.withType(Jar) {
+        //$rootDir 取项目的顶级目录
+        destinationDir = file("$rootDir/jars/newest")
+    }
+
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+
+    repositories {
+        maven {
+            url 'https://s01.oss.sonatype.org/content/repositories/releases/'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/public'
+        }
+        mavenCentral()
+    }
+}
